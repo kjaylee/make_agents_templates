@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* shadcn/ui CSS variables — Zinc base, mapped to Anvil palette */
+    --background: 40 33% 98%;
+    --foreground: 20 15% 11%;
+    --card: 40 33% 98%;
+    --card-foreground: 20 15% 11%;
+    --popover: 40 33% 98%;
+    --popover-foreground: 20 15% 11%;
+    --primary: 14 75% 49%;
+    --primary-foreground: 40 100% 98%;
+    --secondary: 30 14% 68%;
+    --secondary-foreground: 20 15% 11%;
+    --muted: 36 24% 91%;
+    --muted-foreground: 20 14% 50%;
+    --accent: 36 24% 91%;
+    --accent-foreground: 20 15% 11%;
+    --destructive: 8 73% 38%;
+    --destructive-foreground: 40 100% 98%;
+    --border: 36 24% 91%;
+    --input: 36 24% 91%;
+    --ring: 14 75% 49%;
+    --radius: 0.25rem;
+  }
+
+  .dark {
+    --background: 20 18% 4%;
+    --foreground: 34 24% 93%;
+    --card: 20 16% 7%;
+    --card-foreground: 34 24% 93%;
+    --popover: 20 16% 7%;
+    --popover-foreground: 34 24% 93%;
+    --primary: 14 75% 49%;
+    --primary-foreground: 40 100% 98%;
+    --secondary: 20 16% 13%;
+    --secondary-foreground: 34 24% 93%;
+    --muted: 20 16% 13%;
+    --muted-foreground: 30 10% 68%;
+    --accent: 20 16% 13%;
+    --accent-foreground: 34 24% 93%;
+    --destructive: 8 73% 38%;
+    --destructive-foreground: 34 24% 93%;
+    --border: 20 16% 13%;
+    --input: 20 16% 13%;
+    --ring: 14 75% 49%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Anvil surface: warm bone background + 2% paper grain overlay */
+  body.anvil-surface {
+    background-image: url('/textures/grain-2pct.svg');
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* Honor the user's reduced-motion preference (DESIGN.md §7.3) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
