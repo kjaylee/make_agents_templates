@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+.next/
+.turbo/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Drizzle
+packages/forge-schema/drizzle/
+*.sql-journal.json
+
+# Tool state
+.bkit/
+.claude/
+.omc/
+
+# Misc
+.DS_Store
+*.log
+.vercel/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# TS incremental
+*.tsbuildinfo
