@@ -30,6 +30,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+        <head>
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#D9541F" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        </head>
         <body className="anvil-surface min-h-screen bg-bone-100 text-ink-700 font-body antialiased">
           {children}
         </body>

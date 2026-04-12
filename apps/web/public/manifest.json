@@ -1,0 +1,17 @@
+{
+  "name": "Forge Voice",
+  "short_name": "Forge",
+  "start_url": "/forge/voice",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#D9541F",
+  "background_color": "#FAF7F1",
+  "icons": [
+    {
+      "src": "/textures/grain-2pct.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
