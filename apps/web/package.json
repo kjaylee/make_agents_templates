@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
+    "build:cf": "npx @cloudflare/next-on-pages",
+    "deploy": "npx @cloudflare/next-on-pages && wrangler pages deploy",
+    "preview:cf": "npx @cloudflare/next-on-pages && wrangler pages dev",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
@@ -37,6 +40,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@types/node": "^22.7.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

@@ -8,11 +8,10 @@ const workspaceRoot = resolve(__dirname, '../..')
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@forge/engine', '@forge/schema'],
+  outputFileTracingRoot: workspaceRoot,
   turbopack: {
-    // Pin the Turbopack workspace root so Next doesn't walk up the tree
-    // and pick an unrelated lockfile above /Volumes/workspace.
-    root: workspaceRoot
-  }
+    root: workspaceRoot,
+  },
 }
 
 export default nextConfig
