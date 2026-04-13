@@ -1,6 +1,6 @@
 'use client'
 
-import { Hammer } from '@phosphor-icons/react'
+import { Hammer, EnvelopeSimple, CheckCircle } from '@phosphor-icons/react'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -281,6 +281,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Section 5: Waitlist */}
+      <WaitlistSection />
+
       {/* Footer */}
       <footer className="mt-32 border-t border-bone-200 bg-bone-200 -mx-6 px-6 py-8">
         <div className="mx-auto max-w-5xl">
@@ -301,5 +304,85 @@ export default function LandingPage() {
         </div>
       </footer>
     </main>
+  )
+}
+
+function WaitlistSection() {
+  const [email, setEmail] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleWaitlist = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault()
+      const trimmed = email.trim()
+      if (!trimmed) return
+
+      // Store in localStorage for MVP
+      const existing: string[] = JSON.parse(
+        localStorage.getItem('forge_waitlist') ?? '[]'
+      )
+      if (!existing.includes(trimmed)) {
+        localStorage.setItem(
+          'forge_waitlist',
+          JSON.stringify([...existing, trimmed])
+        )
+      }
+
+      setEmail('')
+      setSubmitted(true)
+    },
+    [email]
+  )
+
+  return (
+    <section className="mt-32 -mx-6 bg-bone-200 px-6 py-20">
+      <div className="mx-auto max-w-xl text-center">
+        <h2 className="font-display text-3xl tracking-tight text-ink-900">
+          Be first to forge
+        </h2>
+        <p className="mt-4 text-ink-500">
+          Join the waitlist for early access and 3 months free Pro.
+        </p>
+
+        {submitted ? (
+          <div className="mt-8 inline-flex items-center gap-2 rounded-lg border border-jade-500/30 bg-bone-50 px-6 py-3 text-jade-500">
+            <CheckCircle size={20} weight="duotone" />
+            <span className="text-sm font-medium">
+              You&apos;re on the list!
+            </span>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleWaitlist}
+            className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
+          >
+            <label htmlFor="waitlist-email" className="sr-only">
+              Email address
+            </label>
+            <div className="relative flex-1">
+              <EnvelopeSimple
+                size={18}
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-300"
+              />
+              <input
+                id="waitlist-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="w-full rounded-lg border border-bone-200 bg-bone-50 py-3 pl-10 pr-4 text-sm text-ink-700 shadow-anvil placeholder:text-ink-300 focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-100"
+              />
+            </div>
+            <button
+              type="submit"
+              className="whitespace-nowrap rounded-lg bg-ember-500 px-6 py-3 text-sm font-medium text-bone-50 shadow-ember transition-transform hover:-translate-y-px hover:bg-ember-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember-500"
+            >
+              Join waitlist
+            </button>
+          </form>
+        )}
+      </div>
+    </section>
   )
 }
