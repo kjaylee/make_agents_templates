@@ -5,7 +5,7 @@ const isPublicRoute = createRouteMatcher([
   '/gallery(.*)',
   '/api/gallery',
   // Match /api/agents/:slug exactly — sub-paths like /fork are protected
-  '/api/agents/[^/]+',
+  '/api/agents/:slug',
   '/sign-in(.*)',
   '/sign-up(.*)',
 ])
