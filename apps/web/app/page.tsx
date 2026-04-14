@@ -15,9 +15,9 @@ interface GalleryAgent {
 }
 
 function modelShortName(model: string): string {
-  if (model.includes('opus')) return 'Opus'
-  if (model.includes('sonnet')) return 'Sonnet'
-  if (model.includes('haiku')) return 'Haiku'
+  if (model.includes('opus') || model.includes('pro')) return 'Quality'
+  if (model.includes('sonnet') || model.includes('4o')) return 'Balanced'
+  if (model.includes('haiku') || model.includes('mini') || model.includes('flash')) return 'Fast'
   return model
 }
 
@@ -72,7 +72,7 @@ export default function LandingPage() {
       {/* Section 1: Hero */}
       <section className="mt-24 text-center">
         <h1 className="font-display text-6xl leading-[1.05] tracking-tight text-ink-900">
-          Forge Claude agents
+          Forge AI agents
           <br />
           the way you brief a teammate.
         </h1>
@@ -111,7 +111,7 @@ export default function LandingPage() {
 
         <div className="mt-10 inline-flex items-center gap-2 rounded border border-bone-200 bg-bone-50 px-3 py-1.5">
           <span className="text-xs uppercase tracking-[0.18em] text-ink-300">
-            Powered by Claude Opus 4.6
+            Powered by AI
           </span>
         </div>
       </section>
@@ -189,12 +189,12 @@ export default function LandingPage() {
             {
               step: '2',
               title: 'Forge',
-              body: 'Opus classifies, retrieves similar agents, recommends MCPs, generates, and lints your template in seconds.',
+              body: 'AI classifies, retrieves similar agents, recommends MCPs, generates, and lints your template in seconds.',
             },
             {
               step: '3',
               title: 'Ship',
-              body: 'Copy the YAML or push it straight to Claude Console. Your agent is live in a single click.',
+              body: 'Copy the YAML or deploy to your provider. Your agent is live in a single click.',
             },
           ].map(({ step, title, body }) => (
             <div key={step} className="flex flex-col items-center text-center">
@@ -299,7 +299,7 @@ export default function LandingPage() {
             </nav>
           </div>
           <p className="mt-4 text-xs text-ink-300">
-            © {new Date().getFullYear()} Forge. Built with Claude.
+            © {new Date().getFullYear()} Forge. Built with AI.
           </p>
         </div>
       </footer>

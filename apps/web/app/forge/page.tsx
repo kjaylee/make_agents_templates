@@ -7,14 +7,18 @@ import { IntentPanel } from '@/components/forge/intentPanel'
 import { MonacoEditor } from '@/components/forge/monacoEditor'
 import { LintPanel } from '@/components/forge/lintPanel'
 import { CostEstimator } from '@/components/forge/costEstimator'
+import { ExportPanel } from '@/components/forge/exportPanel'
 import { useForgeStream } from '@/hooks/useForgeStream'
+
+type ProviderType = 'anthropic' | 'openai' | 'google'
 
 function ForgeComposerInner() {
   const searchParams = useSearchParams()
   const initialPrompt = searchParams.get('prompt') ?? ''
-  const { state, yaml, lintScore, lintNotes, error, forge } = useForgeStream()
+  const { state, yaml, lintScore, lintNotes, error, exportFormats, forge } = useForgeStream()
   const [showHammer, setShowHammer] = useState(false)
   const [editedYaml, setEditedYaml] = useState('')
+  const [provider, setProvider] = useState<ProviderType>('anthropic')
 
   const currentYaml = editedYaml || yaml
 
@@ -42,6 +46,7 @@ function ForgeComposerInner() {
       prompt: string
       mcpHints: string[]
       modelPreference: 'speed' | 'balance' | 'quality'
+      provider: ProviderType
     }) => {
       setShowHammer(true)
     // We store intent and fire after animation
@@ -85,6 +90,8 @@ function ForgeComposerInner() {
             onForge={handleForge}
             isForging={isForging}
             initialPrompt={initialPrompt}
+            provider={provider}
+            onProviderChange={setProvider}
           />
         </div>
 
@@ -104,6 +111,13 @@ function ForgeComposerInner() {
           {lintScore !== null && (
             <div className="shrink-0 border-t border-bone-200 p-4">
               <LintPanel lintScore={lintScore} notes={lintNotes} onAutoFix={handleAutoFix} />
+            </div>
+          )}
+
+          {/* Export panel — when YAML is complete */}
+          {exportFormats && state === 'done' && (
+            <div className="shrink-0 border-t border-bone-200 p-4">
+              <ExportPanel exportFormats={exportFormats} />
             </div>
           )}
 

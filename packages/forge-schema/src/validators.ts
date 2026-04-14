@@ -52,7 +52,12 @@ export const templateSchema = z.object({
   model: z.enum([
     'claude-opus-4-6',
     'claude-sonnet-4-6',
-    'claude-haiku-4-5-20251001'
+    'claude-haiku-4-5-20251001',
+    'gpt-4o',
+    'gpt-4o-mini',
+    'gemini-2.0-flash',
+    'gemini-2.0-pro',
+    'gemini-2.0-ultra'
   ]),
   system: z.union([z.string(), z.array(z.string())]),
   mcp_servers: z.array(mcpServerSchema).optional().default([]),

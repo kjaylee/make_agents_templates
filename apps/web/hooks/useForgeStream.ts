@@ -2,10 +2,19 @@
 
 import { useCallback, useRef, useState } from 'react'
 
+type ProviderType = 'anthropic' | 'openai' | 'google'
+
+interface ExportFormats {
+  claude: string
+  openai: string
+  langGraph: string
+}
+
 interface ForgeIntent {
   prompt: string
   mcpHints?: string[]
   modelPreference?: 'speed' | 'balance' | 'quality'
+  provider?: ProviderType
 }
 
 interface LintNote {
@@ -30,6 +39,7 @@ interface UseForgeStreamReturn {
   lintNotes: LintNote[]
   progress: ForgeProgress | null
   error: string | null
+  exportFormats: ExportFormats | null
   forge: (intent: ForgeIntent) => void
   reset: () => void
 }
@@ -41,6 +51,7 @@ export function useForgeStream(): UseForgeStreamReturn {
   const [lintNotes, setLintNotes] = useState<LintNote[]>([])
   const [progress, setProgress] = useState<ForgeProgress | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [exportFormats, setExportFormats] = useState<ExportFormats | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   const reset = useCallback(() => {
@@ -51,6 +62,7 @@ export function useForgeStream(): UseForgeStreamReturn {
     setLintNotes([])
     setProgress(null)
     setError(null)
+    setExportFormats(null)
   }, [])
 
   const forge = useCallback(async (intent: ForgeIntent) => {
@@ -64,12 +76,18 @@ export function useForgeStream(): UseForgeStreamReturn {
     setLintNotes([])
     setProgress(null)
     setError(null)
+    setExportFormats(null)
 
     try {
       const res = await fetch('/api/forge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(intent),
+        body: JSON.stringify({
+          prompt: intent.prompt,
+          mcpHints: intent.mcpHints,
+          modelPreference: intent.modelPreference,
+          provider: intent.provider,
+        }),
         signal: controller.signal,
       })
 
@@ -123,6 +141,9 @@ export function useForgeStream(): UseForgeStreamReturn {
                   setLintScore(event.data.lintScore)
                   setLintNotes(event.data.lintNotes ?? [])
                 }
+                if (event.data.exportFormats) {
+                  setExportFormats(event.data.exportFormats)
+                }
                 break
               case 'error':
                 throw new Error(event.data)
@@ -142,5 +163,5 @@ export function useForgeStream(): UseForgeStreamReturn {
     }
   }, [])
 
-  return { state, yaml, lintScore, lintNotes, progress, error, forge, reset }
+  return { state, yaml, lintScore, lintNotes, progress, error, exportFormats, forge, reset }
 }

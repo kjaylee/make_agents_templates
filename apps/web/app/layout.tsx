@@ -16,14 +16,14 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Forge — Claude Agent Template Generator',
+  title: 'Forge — AI Agent Template Generator',
   description:
-    'Describe the job. Forge hammers out the agent. Generate, test, and share Claude agents in under 60 seconds.',
+    'Describe the job. Forge hammers out the agent. Generate, test, and share AI agents in under 60 seconds.',
   metadataBase: new URL('https://forge-web-85v.pages.dev'),
   openGraph: {
-    title: 'Forge — Claude Agent Template Generator',
+    title: 'Forge — AI Agent Template Generator',
     description:
-      'Describe the job. Forge hammers out the agent. Generate, test, and share Claude agents in under 60 seconds.',
+      'Describe the job. Forge hammers out the agent. Generate, test, and share AI agents in under 60 seconds.',
     url: 'https://forge-web-85v.pages.dev',
     siteName: 'Forge',
     type: 'website',
@@ -32,15 +32,15 @@ export const metadata: Metadata = {
         url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'Forge — Claude Agent Template Generator',
+        alt: 'Forge — AI Agent Template Generator',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Forge — Claude Agent Template Generator',
+    title: 'Forge — AI Agent Template Generator',
     description:
-      'Describe the job. Forge hammers out the agent. Generate, test, and share Claude agents in under 60 seconds.',
+      'Describe the job. Forge hammers out the agent. Generate, test, and share AI agents in under 60 seconds.',
     images: ['/api/og'],
   },
 }

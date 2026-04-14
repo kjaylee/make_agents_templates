@@ -10,19 +10,19 @@ interface CostEstimatorProps {
 const MODEL_PRICING = [
   {
     id: 'claude-opus-4-6',
-    label: 'Opus',
+    label: 'Quality',
     inputPer1M: 15,
     outputPer1M: 75,
   },
   {
     id: 'claude-sonnet-4-6',
-    label: 'Sonnet',
+    label: 'Balanced',
     inputPer1M: 3,
     outputPer1M: 15,
   },
   {
     id: 'claude-haiku-4-5-20251001',
-    label: 'Haiku',
+    label: 'Fast',
     inputPer1M: 0.25,
     outputPer1M: 1.25,
   },

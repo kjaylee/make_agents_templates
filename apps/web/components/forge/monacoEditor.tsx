@@ -280,13 +280,12 @@ export function MonacoEditor({
       {value && !isStreaming && (
         <div className="border-t border-bone-200 px-4 py-3">
           <a
-            href={`https://console.anthropic.com?yaml=${encodeURIComponent(value.slice(0, 1000))}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            onClick={(e) => { e.preventDefault() }}
             className="inline-flex w-full items-center justify-center gap-2 rounded border border-bone-200 bg-bone-100 px-4 py-2 text-sm font-medium text-ink-700 shadow-anvil transition-colors hover:bg-bone-200 hover:text-ink-900"
           >
             <Rocket size={16} weight="duotone" />
-            Ship to Claude Console
+            Deploy agent
           </a>
         </div>
       )}

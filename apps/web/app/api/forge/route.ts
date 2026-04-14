@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
       prompt: body.prompt,
       mcpHints: body.mcpHints,
       modelPreference: body.modelPreference,
-      apiKey: body.apiKey
+      apiKey: body.apiKey,
+      provider: body.provider,
     }
 
     if (!intent.prompt || typeof intent.prompt !== 'string') {

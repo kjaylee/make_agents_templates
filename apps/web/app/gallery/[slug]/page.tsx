@@ -19,9 +19,9 @@ interface AgentDetail {
 }
 
 function modelShortName(model: string): string {
-  if (model.includes('opus')) return 'Opus'
-  if (model.includes('sonnet')) return 'Sonnet'
-  if (model.includes('haiku')) return 'Haiku'
+  if (model.includes('opus') || model.includes('pro')) return 'Quality'
+  if (model.includes('sonnet') || model.includes('4o')) return 'Balanced'
+  if (model.includes('haiku') || model.includes('mini') || model.includes('flash')) return 'Fast'
   return model
 }
 
@@ -129,12 +129,10 @@ export default function AgentDetailPage() {
             </Button>
             <Button asChild variant="outline" size="sm">
               <a
-                href={`https://console.anthropic.com?yaml=${encodeURIComponent(agent.yaml.slice(0, 1000))}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/gallery/${agent.slug}/export`}
               >
                 <Rocket size={16} weight="duotone" />
-                Ship to Console
+                Export as...
               </a>
             </Button>
             <Button asChild variant="secondary" size="sm">

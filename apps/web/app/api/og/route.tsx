@@ -93,7 +93,7 @@ export async function GET() {
             marginBottom: '48px',
           }}
         >
-          Generate, test, and share Claude agents in under 60 seconds.
+          Generate, test, and share AI agents in under 60 seconds.
         </div>
 
         {/* Ember accent bar */}

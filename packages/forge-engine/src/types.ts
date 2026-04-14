@@ -1,4 +1,5 @@
 import type { Template } from '@forge/schema/validators'
+import type { ProviderType } from './providers/types'
 
 /**
  * Forge pipeline types.
@@ -14,6 +15,8 @@ export interface ForgeIntent {
   modelPreference?: 'speed' | 'balance' | 'quality'
   /** BYOK: if provided, use the caller's Anthropic key. */
   apiKey?: string
+  /** LLM provider to use. Defaults to 'anthropic'. */
+  provider?: ProviderType
 }
 
 export interface LintNote {
@@ -32,6 +35,11 @@ export interface ForgeResult {
   tokensOut: number
   costCents: number
   traceId: string
+  exportFormats?: {
+    claude: string
+    openai: string
+    langGraph: string
+  }
 }
 
 /** Stages of the Forge generation pipeline. */

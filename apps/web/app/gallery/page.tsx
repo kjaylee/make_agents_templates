@@ -88,7 +88,7 @@ export default function GalleryPage() {
           Agent Gallery
         </h1>
         <p className="mt-2 text-ink-500">
-          Browse community-forged Claude agents. Fork any template to start.
+          Browse community-forged AI agents. Fork any template to start.
         </p>
       </section>
 
