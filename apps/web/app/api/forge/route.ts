@@ -9,10 +9,18 @@ export const runtime = 'nodejs'
 export const maxDuration = 120
 
 export async function POST(request: NextRequest) {
-  // Rate limiting — tier-aware
+  // Auth required — LLM-consuming endpoint, protects API credits
   const user = await getCurrentUser()
-  const tier = user?.tier ?? 'unauth'
-  const rateKey = user ? `forge:${user.id}` : `forge:ip:${request.headers.get('x-forwarded-for') ?? 'unknown'}`
+  if (!user) {
+    return Response.json(
+      { error: { code: 'UNAUTHORIZED', message: 'Sign in to forge agents. Free tier: 10 agents/month.' } },
+      { status: 401 }
+    )
+  }
+
+  // Rate limiting — tier-aware
+  const tier = user.tier ?? 'free'
+  const rateKey = `forge:${user.id}`
   const rateResult = checkRateLimit(rateKey, RATE_LIMITS[tier])
 
   if (!rateResult.allowed) {
