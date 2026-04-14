@@ -20,6 +20,7 @@ import { exportLangGraphPython } from './config/exporters/langGraphPy'
 import type { UniversalAgentConfig } from './config/universalSchema'
 
 export * from './types'
+export type { LLMClient } from './types'
 export { classify, type TaskType } from './classifier'
 export { retrieve, type SeedMatch } from './retriever'
 export { MCP_CATALOG, type McpEntry } from './mcpCatalog'
@@ -38,6 +39,7 @@ export type {
 export { AnthropicProvider } from './providers/anthropic'
 export { OpenAIProvider } from './providers/openai'
 export { GoogleProvider } from './providers/google'
+export { GenericProvider } from './providers/generic'
 export { exportClaudeYaml } from './config/exporters/claudeYaml'
 export { exportOpenAIJson } from './config/exporters/openaiJson'
 export { exportLangGraphPython } from './config/exporters/langGraphPy'
@@ -137,7 +139,7 @@ function universalConfigToTemplate(config: UniversalAgentConfig): Template {
  */
 export async function forge(intent: ForgeIntent): Promise<ForgeResult> {
   const traceId = randomUUID()
-  const provider = createProvider(intent.provider ?? 'anthropic', intent.apiKey)
+  const provider = createProvider(intent.provider ?? 'anthropic', intent.apiKey, intent.llm)
 
   // 1. Classify
   const taskType = await provider.classify(intent.prompt)
@@ -205,7 +207,7 @@ export async function* forgeStream(
   intent: ForgeIntent
 ): AsyncGenerator<ForgeEvent> {
   const traceId = randomUUID()
-  const provider = createProvider(intent.provider ?? 'anthropic', intent.apiKey)
+  const provider = createProvider(intent.provider ?? 'anthropic', intent.apiKey, intent.llm)
 
   try {
     // 1. Classify

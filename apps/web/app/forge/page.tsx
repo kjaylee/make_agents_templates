@@ -10,15 +10,12 @@ import { CostEstimator } from '@/components/forge/costEstimator'
 import { ExportPanel } from '@/components/forge/exportPanel'
 import { useForgeStream } from '@/hooks/useForgeStream'
 
-type ProviderType = 'anthropic' | 'openai' | 'google'
-
 function ForgeComposerInner() {
   const searchParams = useSearchParams()
   const initialPrompt = searchParams.get('prompt') ?? ''
   const { state, yaml, lintScore, lintNotes, error, exportFormats, forge } = useForgeStream()
   const [showHammer, setShowHammer] = useState(false)
   const [editedYaml, setEditedYaml] = useState('')
-  const [provider, setProvider] = useState<ProviderType>('anthropic')
 
   const currentYaml = editedYaml || yaml
 
@@ -46,7 +43,6 @@ function ForgeComposerInner() {
       prompt: string
       mcpHints: string[]
       modelPreference: 'speed' | 'balance' | 'quality'
-      provider: ProviderType
     }) => {
       setShowHammer(true)
     // We store intent and fire after animation
@@ -90,8 +86,6 @@ function ForgeComposerInner() {
             onForge={handleForge}
             isForging={isForging}
             initialPrompt={initialPrompt}
-            provider={provider}
-            onProviderChange={setProvider}
           />
         </div>
 

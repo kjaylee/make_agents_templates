@@ -6,6 +6,16 @@ import type { ProviderType } from './providers/types'
  * See docs/PLAN.md §4.3 for the full intent → YAML pipeline.
  */
 
+/** Generic LLM integration interface for OpenAI-compatible endpoints. */
+export interface LLMClient {
+  complete: (
+    messages: Array<{ role: string; content: string }>,
+    options?: { maxTokens?: number; temperature?: number }
+  ) => Promise<string>
+  model: string
+  modelFast: string
+}
+
 export interface ForgeIntent {
   /** Natural-language description of what the agent should do. */
   prompt: string
@@ -15,8 +25,10 @@ export interface ForgeIntent {
   modelPreference?: 'speed' | 'balance' | 'quality'
   /** BYOK: if provided, use the caller's Anthropic key. */
   apiKey?: string
-  /** LLM provider to use. Defaults to 'anthropic'. */
+  /** LLM provider to use. Defaults to 'anthropic'. Falls back to 'generic' when llm is provided. */
   provider?: ProviderType
+  /** Generic LLM client for OpenAI-compatible endpoints. When provided, overrides provider. */
+  llm?: LLMClient
 }
 
 export interface LintNote {

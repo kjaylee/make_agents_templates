@@ -1,12 +1,20 @@
 import type { LLMProvider, ProviderType } from './types'
+import type { LLMClient } from '../types'
 import { AnthropicProvider } from './anthropic'
 import { OpenAIProvider } from './openai'
 import { GoogleProvider } from './google'
+import { GenericProvider } from './generic'
 
 export function createProvider(
   type: ProviderType = 'anthropic',
-  apiKey?: string
+  apiKey?: string,
+  llmClient?: LLMClient
 ): LLMProvider {
+  // When an LLM client is provided, always use the generic provider
+  if (llmClient) {
+    return new GenericProvider(llmClient)
+  }
+
   switch (type) {
     case 'anthropic':
       return new AnthropicProvider(apiKey)
@@ -14,6 +22,8 @@ export function createProvider(
       return new OpenAIProvider()
     case 'google':
       return new GoogleProvider()
+    case 'generic':
+      throw new Error('Generic provider requires an llmClient parameter')
     default:
       throw new Error(`Unknown provider type: ${type as string}`)
   }
@@ -46,6 +56,7 @@ export function getAvailableProviders(): Array<{
 export { AnthropicProvider } from './anthropic'
 export { OpenAIProvider } from './openai'
 export { GoogleProvider } from './google'
+export { GenericProvider } from './generic'
 export type {
   LLMProvider,
   ProviderType,

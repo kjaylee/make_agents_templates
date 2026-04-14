@@ -4,6 +4,7 @@ import { handleApiError, ApiError } from '@/lib/apiError'
 import { checkRateLimit } from '@/lib/rateLimit'
 import { getCurrentUser } from '@/lib/auth'
 import { classifyConversation } from '@/lib/classifyConversation'
+import { chatCompletion, getModel, getModelFast } from '@/lib/llm'
 
 export const runtime = 'nodejs'
 export const maxDuration = 120
@@ -37,14 +38,12 @@ export async function POST(request: NextRequest) {
   }
 
   let text: string
-  let apiKey: string | undefined
   try {
     const body = await request.json()
     if (!body.text || typeof body.text !== 'string' || body.text.trim().length === 0) {
       return handleApiError(new ApiError('VALIDATION_ERROR', 'text is required', 400))
     }
     text = body.text
-    apiKey = typeof body.apiKey === 'string' ? body.apiKey : undefined
   } catch {
     return handleApiError(new ApiError('VALIDATION_ERROR', 'Invalid JSON body', 400))
   }
@@ -64,7 +63,7 @@ export async function POST(request: NextRequest) {
           data: { stage: 'extract', message: 'Extracting repeated task...', pct: 0 },
         })
 
-        const summary = await classifyConversation(text, apiKey)
+        const summary = await classifyConversation(text)
 
         enqueue({
           type: 'extracted',
@@ -77,7 +76,19 @@ export async function POST(request: NextRequest) {
         })
 
         // Step 2: feed the summary into the forge pipeline.
-        const intent: ForgeIntent = { prompt: summary, apiKey }
+        const llmClient = {
+          complete: (
+            msgs: Array<{ role: string; content: string }>,
+            opts?: { maxTokens?: number; temperature?: number }
+          ) =>
+            chatCompletion(
+              msgs as Array<{ role: 'system' | 'user' | 'assistant'; content: string }>,
+              opts
+            ),
+          model: getModel(),
+          modelFast: getModelFast(),
+        }
+        const intent: ForgeIntent = { prompt: summary, llm: llmClient }
         for await (const event of forgeStream(intent)) {
           enqueue(event)
         }

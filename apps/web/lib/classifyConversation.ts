@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { chatCompletion, getModelFast } from './llm'
 
 const SYSTEM_PROMPT = `You are an intent extractor. The user will paste a conversation, meeting notes, or a description of a repeated workflow.
 Your job: return ONE sentence describing the repeated task that could be automated by an AI agent.
@@ -11,35 +11,24 @@ Rules:
 
 /**
  * Extract the repeated task description from a conversation.
- * Uses Haiku 4.5 to produce a short imperative summary suitable for the Forge pipeline.
+ * Uses the configured LLM to produce a short imperative summary suitable for the Forge pipeline.
  *
- * MVP fallback: if no API key is configured, returns a deterministic heuristic summary
- * based on the first sentence of the input.
+ * Fallback: returns a deterministic heuristic summary based on the first sentence of the input.
  */
 export async function classifyConversation(
-  text: string,
-  apiKey?: string
+  text: string
 ): Promise<string> {
-  const key = apiKey ?? process.env.ANTHROPIC_API_KEY
-
-  if (!key) {
-    return heuristicSummary(text)
-  }
-
   try {
-    const client = new Anthropic({ apiKey: key })
-    const response = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 200,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: text.slice(0, 8000) }],
-    })
+    const response = await chatCompletion(
+      [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: text.slice(0, 8000) },
+      ],
+      { model: getModelFast(), maxTokens: 200, temperature: 0.3 }
+    )
 
-    const block = response.content[0]
-    if (block && block.type === 'text') {
-      const summary = block.text.trim().replace(/^["']|["']$/g, '')
-      if (summary.length > 0) return summary
-    }
+    const summary = response.trim().replace(/^["']|["']$/g, '')
+    if (summary.length > 0) return summary
   } catch {
     // Fall through to heuristic
   }

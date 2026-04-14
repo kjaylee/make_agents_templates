@@ -4,9 +4,6 @@ import { Hammer } from '@phosphor-icons/react'
 import { useCallback, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { ProviderSelector } from '@/components/forge/providerSelector'
-
-type ProviderType = 'anthropic' | 'openai' | 'google'
 
 const MCP_OPTIONS = [
   { id: 'notion', label: 'Notion' },
@@ -28,25 +25,15 @@ interface IntentPanelProps {
     prompt: string
     mcpHints: string[]
     modelPreference: 'speed' | 'balance' | 'quality'
-    provider: ProviderType
   }) => void
   isForging: boolean
   initialPrompt?: string
-  provider?: ProviderType
-  onProviderChange?: (provider: ProviderType) => void
 }
 
-export function IntentPanel({ onForge, isForging, initialPrompt = '', provider: controlledProvider, onProviderChange }: IntentPanelProps) {
+export function IntentPanel({ onForge, isForging, initialPrompt = '' }: IntentPanelProps) {
   const [prompt, setPrompt] = useState(initialPrompt)
   const [selectedMcps, setSelectedMcps] = useState<string[]>([])
   const [modelPreference, setModelPreference] = useState<'speed' | 'balance' | 'quality'>('balance')
-  const [internalProvider, setInternalProvider] = useState<ProviderType>('anthropic')
-
-  const provider = controlledProvider ?? internalProvider
-  const handleProviderChange = useCallback((p: ProviderType) => {
-    setInternalProvider(p)
-    onProviderChange?.(p)
-  }, [onProviderChange])
 
   const toggleMcp = useCallback((id: string) => {
     setSelectedMcps((prev) =>
@@ -56,8 +43,8 @@ export function IntentPanel({ onForge, isForging, initialPrompt = '', provider: 
 
   const handleForge = useCallback(() => {
     if (!prompt.trim() || isForging) return
-    onForge({ prompt: prompt.trim(), mcpHints: selectedMcps, modelPreference, provider })
-  }, [prompt, selectedMcps, modelPreference, provider, isForging, onForge])
+    onForge({ prompt: prompt.trim(), mcpHints: selectedMcps, modelPreference })
+  }, [prompt, selectedMcps, modelPreference, isForging, onForge])
 
   return (
     <div className="flex h-full flex-col gap-6 p-6">
@@ -106,18 +93,6 @@ export function IntentPanel({ onForge, isForging, initialPrompt = '', provider: 
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Provider selection */}
-      <div className="flex flex-col gap-3">
-        <span className="text-xs font-medium uppercase tracking-[0.12em] text-ink-500">
-          Provider
-        </span>
-        <ProviderSelector
-          value={provider}
-          onChange={handleProviderChange}
-          disabled={isForging}
-        />
       </div>
 
       {/* Model preference */}

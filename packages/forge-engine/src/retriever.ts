@@ -23,9 +23,9 @@ export interface SeedMatch {
 let cachedSeeds: Array<{ seed: SeedTemplate; filename: string }> | null = null
 
 function getSeedsDir(): string {
-  // Resolve from the project root relative to this module
-  const moduleDir = new URL('.', import.meta.url).pathname
-  return join(moduleDir, '..', '..', '..', 'docs', 'seeds')
+  // Use process.cwd() which points to the workspace root in both
+  // dev (Next.js Turbopack) and production builds.
+  return join(process.cwd(), '..', '..', 'docs', 'seeds')
 }
 
 function loadSeeds(): Array<{ seed: SeedTemplate; filename: string }> {

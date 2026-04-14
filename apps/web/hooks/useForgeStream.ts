@@ -2,8 +2,6 @@
 
 import { useCallback, useRef, useState } from 'react'
 
-type ProviderType = 'anthropic' | 'openai' | 'google'
-
 interface ExportFormats {
   claude: string
   openai: string
@@ -14,7 +12,6 @@ interface ForgeIntent {
   prompt: string
   mcpHints?: string[]
   modelPreference?: 'speed' | 'balance' | 'quality'
-  provider?: ProviderType
 }
 
 interface LintNote {
@@ -86,7 +83,6 @@ export function useForgeStream(): UseForgeStreamReturn {
           prompt: intent.prompt,
           mcpHints: intent.mcpHints,
           modelPreference: intent.modelPreference,
-          provider: intent.provider,
         }),
         signal: controller.signal,
       })

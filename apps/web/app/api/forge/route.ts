@@ -3,6 +3,7 @@ import { forgeStream, type ForgeIntent } from '@forge/engine'
 import { handleApiError, ApiError } from '@/lib/apiError'
 import { checkRateLimit, RATE_LIMITS } from '@/lib/rateLimit'
 import { getCurrentUser } from '@/lib/auth'
+import { chatCompletion, getModel, getModelFast } from '@/lib/llm'
 
 export const runtime = 'nodejs'
 export const maxDuration = 120
@@ -38,8 +39,15 @@ export async function POST(request: NextRequest) {
       prompt: body.prompt,
       mcpHints: body.mcpHints,
       modelPreference: body.modelPreference,
-      apiKey: body.apiKey,
-      provider: body.provider,
+      llm: {
+        complete: (msgs, opts) =>
+          chatCompletion(
+            msgs as Array<{ role: 'system' | 'user' | 'assistant'; content: string }>,
+            opts
+          ),
+        model: getModel(),
+        modelFast: getModelFast(),
+      },
     }
 
     if (!intent.prompt || typeof intent.prompt !== 'string') {

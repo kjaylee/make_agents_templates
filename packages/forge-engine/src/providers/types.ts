@@ -5,7 +5,7 @@ import type { SeedMatch } from '../retriever'
 import type { McpEntry } from '../mcpCatalog'
 import type { UniversalAgentConfig } from '../config/universalSchema'
 
-export type ProviderType = 'anthropic' | 'openai' | 'google'
+export type ProviderType = 'anthropic' | 'openai' | 'google' | 'generic'
 export type QualityTier = 'fast' | 'balanced' | 'quality'
 
 export interface LLMProvider {
