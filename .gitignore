@@ -33,3 +33,4 @@ packages/forge-schema/drizzle/
 
 # TS incremental
 *.tsbuildinfo
+.gstack/
