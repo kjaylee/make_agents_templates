@@ -17,13 +17,14 @@ Forge MVP 런칭 시 갤러리의 초기 콘텐츠이며, `scripts/seed-template
 | 08 | `sprint-retro-facilitator` | Sprint retro facilitator | sonnet-4-6 | linear, slack | docx |
 | 09 | `support-to-eng-escalator` | Support-to-eng escalator | sonnet-4-6 | intercom, atlassian, slack | — |
 | 10 | `data-analyst` | Data analyst | sonnet-4-6 | amplitude | — |
+| 11 | `unity-vibe-coder` | Unity3D Vibe Coder | sonnet-4-6 | unity-mcp, github | — |
 
 ## 카탈로그 통계
 
-- **모델 분포**: sonnet-4-6 × 9, opus-4-6 × 1
-- **MCP 커버리지 (unique 9종)**: notion, slack, linear, sentry, github, asana, intercom, atlassian, amplitude
+- **모델 분포**: sonnet-4-6 × 10, opus-4-6 × 1
+- **MCP 커버리지 (unique 10종)**: notion, slack, linear, sentry, github, asana, intercom, atlassian, amplitude, unity-mcp
 - **Anthropic Skills**: docx × 1
-- **Tool shapes**: agent_toolset_20260401 (all) + mcp_toolset (6개 템플릿)
+- **Tool shapes**: agent_toolset_20260401 (all) + mcp_toolset (7개 템플릿)
 
 ## 네이밍 규칙
 
